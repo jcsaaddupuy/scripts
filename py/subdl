@@ -382,8 +382,9 @@ def main(args):
 		AutoDownloadAndSave(file, search_result, osdb_token)
 	    else:
 		raise Exception("internal error: bad option.download=%s"%options.download)
-    except:
+    except Exception, e :
 	Logout(osdb_token)
+	print e
 if __name__=="__main__":
 	try:
 		import psyco
