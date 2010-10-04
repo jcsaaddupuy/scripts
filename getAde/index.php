@@ -27,16 +27,21 @@
 $ADE2ICS="./ade2ics-v3.3.pl";
 $FAC="UJF";
 $LOGIN="voirIMA";
-$PWD="ima"
+$PWD="ima";
 
-if(isset($_GET["ressource"])){
-	switch($_GET["ressource"]){
+#echo "Up";
+#$_GET["q"]="M1";
+
+if(isset($_GET["q"])){
+	switch($_GET["q"]){
 		case "M2T" : $res="124";break;
 		case "M2D" : $res="138";break;
+		case "M1" : $res="5";break;
 		default : $res="123";
 	}
 
 	exec( $ADE2ICS." -s ".$FAC." -l ".$LOGIN." -p '".$PWD."' -n ".$res,$output);
+	#echo "After EXEC";
 	//On pose le mime type
 	header('Content-type: text/calendar');
 
@@ -49,7 +54,7 @@ if(isset($_GET["ressource"])){
 	}
 }
 else{
-	echo "No ressource setted !";
+	echo "No ressource setted !\n";
 }
 
 ?>
