@@ -37,6 +37,9 @@ if(isset($_GET["q"])){
 		case "M2T" : $res="124";break;
 		case "M2D" : $res="138";break;
 		case "M1" : $res="5";break;
+		case "M1G1" : $res="22";break;
+		case "M1G2" : $res="17";break;
+		//Default : M2 Miage \o/
 		default : $res="123";
 	}
 
