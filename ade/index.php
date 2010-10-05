@@ -43,7 +43,7 @@ if(isset($_GET["q"])){
 	exec( $ADE2ICS." -s ".$FAC." -l ".$LOGIN." -p '".$PWD."' -n ".$res,$output);
 	#echo "After EXEC";
 	//On pose le mime type
-	header('Content-type: text/calendar');
+	header('Content-type: text/calendar; charset=utf-8');
 
 	/* 
 	$output est un tableau contenant chaque ligne de sortie de la console dans une entrée du tableau
