@@ -81,7 +81,7 @@ function createFolder($folderName){
 	}
 }
 //A virer pour livraison. Permet de lancer le script avec la variable initialisée hors contexte web.
-$_GET["q"]="M2T";
+#$_GET["q"]="M2T";
 if(isset($_GET["q"])){
 	switch($_GET["q"]){
 		case "M2T" : $res="124";$fname="M2T";break;
