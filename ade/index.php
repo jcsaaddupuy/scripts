@@ -57,11 +57,8 @@ function isCompleteVCalendar($calendar){
 */
 function writeToFile($filename, $content){
 	$f=fopen($filename, "w");
-	#echo $f;
-	for($i=0; $i<sizeof($content); $i++){
-		fwrite($f, $content[$i]);
-	}
 	fclose($f);
+	#echo "Content writed to ".$filename;
 }
 /***
 * Lit le fichier dont le nom est donné en paramètre et le renvois
@@ -81,7 +78,7 @@ function createFolder($folderName){
 	}
 }
 //A virer pour livraison. Permet de lancer le script avec la variable initialisée hors contexte web.
-#$_GET["q"]="M2T";
+#$_GET["q"]="L3";
 if(isset($_GET["q"])){
 	switch($_GET["q"]){
 		case "M2T" : $res="124";$fname="M2T";break;
@@ -89,6 +86,9 @@ if(isset($_GET["q"])){
 		case "M1" : $res="5";$fname="M1";break;
 		case "M1G1" : $res="22";$fname="M1G1";break;
 		case "M1G2" : $res="17";$fname="M1G2";break;
+		case "L3" : $res="4";$fname="L3";break;
+		case "L3G1" : $res="21";$fname="L3G1";break;
+		case "L3G2" : $res="2";$fname="L3G2";break;
 		//Default : M2 Miage \o/
 		default : $res="123";$fname="default";
 	}
@@ -96,7 +96,6 @@ if(isset($_GET["q"])){
 	$fname.=".ics";
 
 	exec( $ADE2ICS." -s ".$FAC." -l ".$LOGIN." -p '".$PWD."' -n ".$res,$output);
-
 
 	/*
 		En cas d'erreur (contenu vide), on renvoie les infos contenues dans le cache.
@@ -110,7 +109,7 @@ if(isset($_GET["q"])){
 	#$calContent="";
 	if(isCompleteVCalendar($calContent)){
 		createFolder($CACHE_DIR);
-		writeToFile($CACHE_DIR."/".$fname, $output);
+		writeToFile($CACHE_DIR."/".$fname, $calContent);
 	}else{
 		//!\\
 		//Ici, si le cache n'a pas été crée un erreur sera levée.
