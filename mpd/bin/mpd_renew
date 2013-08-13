@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#########################################################################
+# 
+#           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#                   Version 2, December 2004
+# 
+#Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+# 
+#Everyone is permitted to copy and distribute verbatim or modified
+#copies of this license document, and changing it is allowed as long
+#as the name is changed.
+# 
+#           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+# 
+# 0. You just DO WHAT THE FUCK YOU WANT TO.
+#######################################################################
+
+
+##################################################################################
+# This script clear the mpd queue and create a new one with N songs
+# It needs the mpc binary.
+# It needs a /etc/default/mpc which define
+# The mpd server as 
+# MPD_HOST=password@mpd.lan
+ 
+# it can then be call with the followoing command : 
+# ./mpd_renew 50
+
+# Argv[1] is the number of random songs to be added.
+################################################################################### 
+
+
+
+if [ $# -ne 1 ];
+then
+	echo "Number of songs to add must be passed as first parameter"
+	exit -1
+fi
+
+
+# Importing MPC configuration
+source /etc/default/mpc
+
+mpc clear > /dev/null
+mpc listall | sort -R | tail -n$1 | tee  | mpc add
+
