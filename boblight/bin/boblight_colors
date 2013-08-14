@@ -1,0 +1,81 @@
+#!/bin/bash
+
+#########################################################################
+# 
+#           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#                   Version 2, December 2004
+# 
+#Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+# 
+#Everyone is permitted to copy and distribute verbatim or modified
+#copies of this license document, and changing it is allowed as long
+#as the name is changed.
+# 
+#           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+# 
+# 0. You just DO WHAT THE FUCK YOU WANT TO.
+#######################################################################
+
+
+#######################################################################
+# This script iterate over arguments to set boblight color for a certain duuration.
+# It need a /etc/default/boblightd which define
+# The boblight server as 
+# BOBLIGHTD=server:[port]
+# and somes colors as
+# RED=FF0000
+# GREEN=00FF00
+# BLUE=0000FF
+# WHITE=FFFFFF
+# YELLOW=F0FF00
+# ORANGE=FF6600
+
+# it can then be call with the ollowoing command :
+# ./boblight_colors BLUE 5 GREEN 5 YELLOW 5 ORANGE 5 RED 5
+
+# Duration a in seconds.
+##############################################
+
+# nb arguments modulo 2 = 0 ?
+if [ $(($#%2)) -ne 0 ] ; then
+ echo "Args must be passed as pairs"
+ exit -1
+fi
+
+
+source /etc/default/boblightd
+
+NBPAIRS=$(($#/2))
+
+#Iteration counter
+IT=0
+
+for i in `seq $NBPAIRS`
+do
+	INDEX=$(($i+$IT))
+
+	COLINDEX=$INDEX
+	DURINDEX=$(($INDEX+1))
+
+	# Get arg values from ARGV[index]
+	COL=${!COLINDEX}
+	DUR=${!DURINDEX}
+        # Increment iteration counter
+	IT=$(($IT+1))
+
+        #Get color hexa value from its name and it value defined in /etc/default/boblightd
+	COLOR=${!COL}
+	
+
+        # Call boblight-constant
+	boblight-constant -s $BOBLIGHTD $COLOR -f
+        # Sleep for the given duration
+	sleep $DUR
+
+        # Kill the instance after sleep
+	PID=`pidof boblight-constant`
+	if [ x"$PID" != x ] ; then
+		kill -KILL $PID
+	fi
+done
