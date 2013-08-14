@@ -69,7 +69,7 @@ do
 	
 
         # Call boblight-constant
-	boblight-constant -s $BOBLIGHTD $COLOR -f
+	boblight-constant -s $BOBLIGHTD $COLOR -f > /dev/null
         # Sleep for the given duration
 	sleep $DUR
 
