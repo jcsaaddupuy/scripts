@@ -1,0 +1,11 @@
+[Unit]
+Description=MPD Sima startup script
+After=mpd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mpd-sima -c /etc/mpd-sima.cfg -l /var/log/mpd_sima/mpd_sima.log
+
+[Install]
+WantedBy=multi-user.target
+
